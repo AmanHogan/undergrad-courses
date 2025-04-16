@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.ejs": "html",
+        "mpi.h": "c",
+        "math.h": "c",
+        "type_traits": "c"
+    }
+}

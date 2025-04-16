@@ -1,0 +1,81 @@
+
+
+
+
+img {
+    width:300px;
+}
+
+
+#banner-columns
+{
+    columns: auto auto auto;
+
+}
+
+
+#nav-column
+{
+  column-width: 50px;
+  display:
+}
+
+#page-banner
+{
+    background-color: #3B3838;
+}
+
+#banner-text
+{
+    color: aliceblue;
+}
+
+#banner-subtext
+{
+    color: aliceblue;
+}
+
+
+
+.name-title title
+{
+    font-family: Palatino Linotype;
+}
+
+.portfolio-header
+{
+    padding-top: 5px;
+    background-color: #3B3838; /*Dark Gray*/
+    height:150px;
+}
+
+.portfolio-header h1
+{
+    color:azure;
+    font-size: 50px;
+    font-family: Palatino Linotype;
+    text-align: center;
+}
+
+
+/* Work Experience 
+---------------------------- */
+.work-experience h2
+{
+    font-family: Palatino Linotype;
+
+
+}
+
+h3
+{
+    font-family: Georgia;
+}
+
+
+.projects a
+{
+    text-decoration:none;
+
+}
+

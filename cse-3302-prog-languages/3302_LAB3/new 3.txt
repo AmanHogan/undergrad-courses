@@ -1,0 +1,71 @@
+import os
+
+# Open the file with read only permit
+
+f = open("input_RPN.txt")
+line = f.readline()
+leftcom = 1000000000
+rightcom = 1000000000
+count = 0
+while line:
+    compos = 1000000000000
+    bracpos = 0
+    rquotepos = 100000000000
+    lquotepos = 1000000000000
+    mainLine = line.rstrip()
+    line = line.strip()
+    if "{" in line:
+        if "//" in line:
+            compos = line.find("//")
+            bracpos = line.find("{")
+        elif "*/" in line:
+            leftcom = line.find("*/")
+            bracpos = line.find("{")
+        elif "/*" in line:
+            rightcom = line.find("*/")
+            bracpos = line.find("{")
+        if "\"" in line:
+            lquotepos = line.find("\"")
+            rquotepos = line.rfind("\"")
+            bracpos = line.find("{")
+        if bracpos <= compos and bracpos <= rightcom and bracpos <= leftcom:
+            if bracpos <= lquotepos and bracpos <= rquotepos:
+                count += 1
+            elif rightcom <= bracpos:
+                rightcom = -1
+                count = count
+            elif leftcom <= bracpos:
+                rightcom = 1000000000
+                leftcom = 1000000000
+                count += 1
+    if "/*" in line:
+        leftcom = -1
+    if "*/" in line:
+        leftcom = 10000000000
+    print(str(count) + mainLine)
+    if "}" in line:
+        if "//" in line:
+            compos = line.find("//")
+            bracpos = line.find("}")
+        elif "*/" in line:
+            leftcom = line.find("*/")
+            bracpos = line.find("}")
+        elif "/*" in line:
+            rightcom = line.find("*/")
+            bracpos = line.find("}")
+        if "\"" in line:
+            lquotepos = line.find("\"")
+            rquotepos = line.rfind("\"")
+            bracpos = line.find("}")
+        if bracpos <= compos and bracpos <= rightcom and bracpos <= leftcom:
+            if bracpos <= lquotepos and bracpos <= rquotepos:
+                count -= 1
+            elif rightcom <= bracpos:
+                rightcom = -1
+                count = count
+            elif leftcom <= bracpos:
+                rightcom = 1000000000
+                leftcom = 1000000000
+                count -= 1
+    line = f.readline()
+f.close()

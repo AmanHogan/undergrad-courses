@@ -1,0 +1,205 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <mpi.h>
+
+#define PI 3.14159265358979323846
+#define GRID_SIZE 40
+#define TIME_FINAL 1.0
+#define I3D(i, j, k, nx, ny) ((i) + (j) * (nx + 2) + (k) * (nx + 2) * (ny + 2))
+
+void initialize(double *u, int nx, int ny, int nz, double dx, double dy, double dz, int x_offset, int y_offset, int z_offset);
+void time_step(double *u, double *u_new, int nx, int ny, int nz, double dt, double dx2, double dy2, double dz2, MPI_Comm cart_comm, int neighbors[6]);
+double compute_local_error(double *u, int nx, int ny, int nz, double T, double dx, double dy, double dz, int x_offset, int y_offset, int z_offset);
+
+int main(int argc, char **argv) {
+    MPI_Init(&argc, &argv);
+
+    int rank, size;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    // Set defaults for MPIX, MPIY, and MPIZ
+    int MPIX = 2, MPIY = 2, MPIZ = 2;
+
+    // Parse command-line arguments if provided
+    if (argc > 1) MPIX = atoi(argv[1]);
+    if (argc > 2) MPIY = atoi(argv[2]);
+    if (argc > 3) MPIZ = atoi(argv[3]);
+
+    int nx = GRID_SIZE / MPIX;
+    int ny = GRID_SIZE / MPIY;
+    int nz = GRID_SIZE / MPIZ;
+
+    // Validate process count
+    if (size != MPIX * MPIY * MPIZ) {
+        if (rank == 0) {
+            fprintf(stderr, "Error: Number of processes (%d) does not match the grid (%d x %d x %d = %d).\n",
+                    size, MPIX, MPIY, MPIZ, MPIX * MPIY * MPIZ);
+        }
+        MPI_Abort(MPI_COMM_WORLD, 1);
+    }
+
+    int dims[3] = {MPIX, MPIY, MPIZ};
+    int periods[3] = {0, 0, 0};  // No periodic boundaries
+    MPI_Comm cart_comm;
+    MPI_Cart_create(MPI_COMM_WORLD, 3, dims, periods, 0, &cart_comm);
+
+    // Output binding information for each process
+    int coords[3];
+    MPI_Cart_coords(cart_comm, rank, 3, coords);
+    printf("Process %d bound to node with coordinates (X=%d, Y=%d, Z=%d)\n", rank, coords[0], coords[1], coords[2]);
+
+    // Define grid spacing and CFL-based time step size
+    double dx = PI / GRID_SIZE;
+    double dy = PI / GRID_SIZE;
+    double dz = PI / GRID_SIZE;
+    double dx2 = dx * dx;
+    double dy2 = dy * dy;
+    double dz2 = dz * dz;
+
+    double CFL = 0.25;
+    double dt = CFL * dx2 / 3.0;
+    int nsteps = (int)ceil(TIME_FINAL / dt);
+    dt = TIME_FINAL / nsteps;
+
+    if (rank == 0) {
+        // printf("dt = %e, dx = %e, dy = %e, dz = %e\n", dt, dx, dy, dz);
+        printf("Number of time steps = %d\n", nsteps);
+    }
+
+    double *u = (double *)malloc((nx + 2) * (ny + 2) * (nz + 2) * sizeof(double));
+    double *u_new = (double *)malloc((nx + 2) * (ny + 2) * (nz + 2) * sizeof(double));
+
+    int x_offset = coords[0] * nx;
+    int y_offset = coords[1] * ny;
+    int z_offset = coords[2] * nz;
+
+    // printf("Process %d: nx = %d, ny = %d, nz = %d\n", rank, nx, ny, nz);
+    // printf("Process %d: x_offset = %d, y_offset = %d, z_offset = %d\n", rank, x_offset, y_offset, z_offset);
+
+    initialize(u, nx, ny, nz, dx, dy, dz, x_offset, y_offset, z_offset);
+
+    int neighbors[6];
+    MPI_Cart_shift(cart_comm, 2, 1, &neighbors[0], &neighbors[1]);
+    MPI_Cart_shift(cart_comm, 1, 1, &neighbors[2], &neighbors[3]);
+    MPI_Cart_shift(cart_comm, 0, 1, &neighbors[4], &neighbors[5]);
+
+    printf("Process %d: neighbors = {top=%d, bottom=%d, left=%d, right=%d, front=%d, back=%d}\n", 
+           rank, neighbors[0], neighbors[1], neighbors[2], neighbors[3], neighbors[4], neighbors[5]);
+
+    for (int t = 0; t < nsteps; t++) {
+        time_step(u, u_new, nx, ny, nz, dt, dx2, dy2, dz2, cart_comm, neighbors);
+        double *tmp = u;
+        u = u_new;
+        u_new = tmp;
+    }
+
+    double local_error = compute_local_error(u, nx, ny, nz, TIME_FINAL, dx, dy, dz, x_offset, y_offset, z_offset);
+
+    double global_error_squared;
+    MPI_Reduce(&local_error, &global_error_squared, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+
+    if (rank == 0) {
+        // Take the square root of the summed squared error to get the L2 norm
+        double global_error = global_error_squared / (MPIX * MPIY * MPIZ);
+        printf("Global L2 Error = %e\n", global_error);
+    }
+
+
+    free(u);
+    free(u_new);
+    MPI_Finalize();
+    return 0;
+}
+
+
+// Initialize the grid with initial conditions
+void initialize(double *u, int nx, int ny, int nz, double dx, double dy, double dz, int x_offset, int y_offset, int z_offset) {
+    for (int i = 1; i <= nx; i++) {
+        for (int j = 1; j <= ny; j++) {
+            for (int k = 1; k <= nz; k++) {
+                double x = (i - 1 + x_offset) * dx;
+                double y = (j - 1 + y_offset) * dy;
+                double z = (k - 1 + z_offset) * dz;
+                u[I3D(i, j, k, nx, ny)] = sin(x) * sin(y) * sin(z);
+            }
+        }
+    }
+}
+
+void time_step(double *u, double *u_new, int nx, int ny, int nz, double dt, double dx2, double dy2, double dz2, MPI_Comm cart_comm, int neighbors[6]) {
+    MPI_Request reqs[12];
+    int req_count = 0;
+
+    // Z-axis communication (top and bottom)
+    if (neighbors[0] != MPI_PROC_NULL) {
+        MPI_Isend(&u[I3D(1, 1, nz, nx, ny)], nx * ny, MPI_DOUBLE, neighbors[0], 0, cart_comm, &reqs[req_count++]);
+        MPI_Irecv(&u[I3D(1, 1, 0, nx, ny)], nx * ny, MPI_DOUBLE, neighbors[1], 0, cart_comm, &reqs[req_count++]);
+    }
+    if (neighbors[1] != MPI_PROC_NULL) {
+        MPI_Isend(&u[I3D(1, 1, 1, nx, ny)], nx * ny, MPI_DOUBLE, neighbors[1], 1, cart_comm, &reqs[req_count++]);
+        MPI_Irecv(&u[I3D(1, 1, nz + 1, nx, ny)], nx * ny, MPI_DOUBLE, neighbors[0], 1, cart_comm, &reqs[req_count++]);
+    }
+
+    // Y-axis communication (left and right)
+    if (neighbors[2] != MPI_PROC_NULL) {
+        MPI_Isend(&u[I3D(1, ny, 1, nx, ny)], nx * nz, MPI_DOUBLE, neighbors[2], 2, cart_comm, &reqs[req_count++]);
+        MPI_Irecv(&u[I3D(1, 0, 1, nx, ny)], nx * nz, MPI_DOUBLE, neighbors[3], 2, cart_comm, &reqs[req_count++]);
+    }
+    if (neighbors[3] != MPI_PROC_NULL) {
+        MPI_Isend(&u[I3D(1, 1, 1, nx, ny)], nx * nz, MPI_DOUBLE, neighbors[3], 3, cart_comm, &reqs[req_count++]);
+        MPI_Irecv(&u[I3D(1, ny + 1, 1, nx, ny)], nx * nz, MPI_DOUBLE, neighbors[2], 3, cart_comm, &reqs[req_count++]);
+    }
+
+    // X-axis communication (front and back)
+    if (neighbors[4] != MPI_PROC_NULL) {
+        MPI_Isend(&u[I3D(nx, 1, 1, nx, ny)], ny * nz, MPI_DOUBLE, neighbors[4], 4, cart_comm, &reqs[req_count++]);
+        MPI_Irecv(&u[I3D(0, 1, 1, nx, ny)], ny * nz, MPI_DOUBLE, neighbors[5], 4, cart_comm, &reqs[req_count++]);
+    }
+    if (neighbors[5] != MPI_PROC_NULL) {
+        MPI_Isend(&u[I3D(1, 1, 1, nx, ny)], ny * nz, MPI_DOUBLE, neighbors[5], 5, cart_comm, &reqs[req_count++]);
+        MPI_Irecv(&u[I3D(nx + 1, 1, 1, nx, ny)], ny * nz, MPI_DOUBLE, neighbors[4], 5, cart_comm, &reqs[req_count++]);
+    }
+
+    // Only call MPI_Waitall if there are active requests
+    if (req_count > 0) {
+        MPI_Waitall(req_count, reqs, MPI_STATUSES_IGNORE);
+    }
+
+    // Update grid values
+    for (int i = 1; i <= nx; i++) {
+        for (int j = 1; j <= ny; j++) {
+            for (int k = 1; k <= nz; k++) {
+                u_new[I3D(i, j, k, nx, ny)] = u[I3D(i, j, k, nx, ny)]
+                    + dt / dx2 * (u[I3D(i + 1, j, k, nx, ny)] - 2 * u[I3D(i, j, k, nx, ny)] + u[I3D(i - 1, j, k, nx, ny)])
+                    + dt / dy2 * (u[I3D(i, j + 1, k, nx, ny)] - 2 * u[I3D(i, j, k, nx, ny)] + u[I3D(i, j - 1, k, nx, ny)])
+                    + dt / dz2 * (u[I3D(i, j, k + 1, nx, ny)] - 2 * u[I3D(i, j, k, nx, ny)] + u[I3D(i, j, k - 1, nx, ny)]);
+            }
+        }
+    }
+}
+
+double compute_local_error(double *u, int nx, int ny, int nz, double T, double dx, double dy, double dz, int x_offset, int y_offset, int z_offset) {
+    double local_error = 0.0;
+    for (int i = 1; i <= nx; i++) {
+        for (int j = 1; j <= ny; j++) {
+            for (int k = 1; k <= nz; k++) {
+                double x = (i - 1 + x_offset) * dx;
+                double y = (j - 1 + y_offset) * dy;
+                double z = (k - 1 + z_offset) * dz;
+                double exact = exp(-3 * T) * sin(x) * sin(y) * sin(z);
+                double error = u[I3D(i, j, k, nx, ny)] - exact;
+                local_error += error * error * dx * dy * dz;
+            }
+        }
+    }
+
+    // Optional debug print for each process
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    printf("Process %d: Local error contribution = %e\n", rank, local_error);
+
+    return local_error;
+}
+

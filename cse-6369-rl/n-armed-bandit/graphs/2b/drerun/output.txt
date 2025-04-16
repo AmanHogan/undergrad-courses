@@ -1,0 +1,6 @@
+-----------------------------------
+Epsilon (0.1) with a total average reward of -815.2061. Best start floor = 4
+Epsilon (0.5) with a total average reward of -775.822. Best start floor = 4
+Epsilon (1) with a total average reward of -778.8782. Best start floor = 4
+-----------------------------------
+Best floor was 4 with avg utility of -775.822 over 2000 steps and 3 experiments.

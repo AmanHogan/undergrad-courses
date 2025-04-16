@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void buildMaxHeap(int arr[], int N);
+void sinkDown(int arr[], int p, int N);
+
+int main()
+{
+	int N = 4;
+	int arr[N] = {2, 4, 8, 12};
+	
+	buildMaxHeap(arr, N);
+
+	for(int i = 0; i < N; i++)
+	{
+		printf("%d ", arr[i]);
+	
+	}
+
+
+
+
+
+
+
+}
+
+int idxOfMaxValue(int arr[], int p, int left, int right)
+{
+	if((left <= N) && (arr[left] > arr[imv]))
+	{
+		imv = left;
+	
+	}
+	
+	if((right <= N) && (arr[right] > arr[imv]))
+	{
+		imv = right;
+	
+	}
+
+	return imv;
+
+}
+
+void buildMaxHeap(int arr[], int N) // Time Complexity: O(N)
+{
+	int p;
+	for(p = N/2; p>=1; p--)
+	{
+		sinkDown(arr, p, N);
+	}
+
+
+}
+
+void sinkDown(int arr[], int p, int N)
+{
+	int left, right, imv;
+	left = 2*p;
+	rigth = (2*p) +1;
+	
+	imv = idxOfMaxValue(arr, p, left, right);
+	
+	while((imv != p) && (imv <= N))
+	{
+		int temp;
+		
+		temp = arr[p];
+		arr[p] = arr[imv];
+		arr[imv] = p;
+		
+		p = imv;
+		left = 2*p;
+		right = (2*p) +1;
+		
+		imv = idxOfMaxValue(A, p, left, right);
+	
+	}
+
+
+} 

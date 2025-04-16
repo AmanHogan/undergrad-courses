@@ -1,0 +1,17 @@
+Author: Aman Hogan-Bailey
+MavID: 1001830469
+Date: 03/2023
+
+There are no array inputs provided to algo_main. All arrays are randomized from the random python module and the only input taken is array size.
+Therfore, no inputs will be provided in this text file; it is only provided to align with the grading criterion.
+
+Here is an example randomized array that was run in the program, and the details logged:
+    Unsorted Array: [34, 82, 44, 45, 5, 47, 70, 93, 93, 75]
+    SELECTION SORT
+    ARRAY SIZE: 10
+    START TIME: 187574755564.5
+    END TIME: 187574755781.8
+    RUN TIME: 217.29998779296875 MICROSECONDS
+    BYTES PER MICROSECOND: 0.18407732281195413
+    UNSORTED: [34, 82, 44, 45, 5, 47, 70, 93, 93, 75]
+    SORTED: [5, 34, 44, 45, 47, 70, 75, 82, 93, 93]

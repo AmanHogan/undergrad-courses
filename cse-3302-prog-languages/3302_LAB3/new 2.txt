@@ -1,0 +1,72 @@
+def tokenizing(lines, token_temp):
+    class_name = 0
+    count = 0
+    cur_token = []
+    for line in lines:
+        line = line.strip()
+        line_tokens = line.split(" ")
+        for token in line_tokens:
+            token_temp.append(token)
+    for token in token_temp:
+        cur_token.append(token)
+        slash = 0
+        brace = 0
+        brace2 = 0
+        colon = 0
+
+        if "//" in token:
+            slash = token.index("//")
+        else:
+            slash = 0
+        if "{" in token:
+            brace = token.index("{")
+        else:
+            brace = 0
+        if "}" in token:
+            brace2 = token.index("}")
+        else:
+            brace2 = 0
+        if ";" in token:
+            colon = token.index(";")
+        else:
+            colon = 0
+        if "//" in token:
+            num = token.index("//")
+        if ";" in token:
+            print(str(count) + str(cur_token))
+            cur_token = []
+        if "class" in token or "()":
+
+            if class_name > 1:
+                print(str(count) + str(cur_token))
+                cur_token = []
+                class_name = 0
+            else:
+                class_name = class_name + 1
+        if "{" in token and brace <= slash:
+            if brace == len(token):
+                print(str(count) + str(cur_token[:brace-1]))
+                cur_token = []
+                cur_token.append("{")
+            else:
+                count = count +1
+                print(str(count) + str(cur_token))
+                cur_token = []
+        if "}" in token and brace <= slash:
+            count = count - 1
+            print(str(count) + str(cur_token))
+            cur_token = []
+    return token_temp
+
+
+if __name__ == '__main__':
+    f = open("input_RPN.txt")
+    lines = f.readlines();
+
+    token_temp = []
+    tokens = []
+    tokens = tokenizing(lines, token_temp)
+    # print(tokens)
+
+    # root = build_tree(tokens)
+    # print("")

@@ -1,0 +1,160 @@
+2024-04-22 12:39:49: ---- Start Training ----
+2024-04-22 12:39:49: Cmd params: Namespace(data_path='./sample-data/', max_audio_length=4, sample_rate=22050, gender='male', sound_type='sentence', algo='knn', verbose=False, neighbors=3, estimators=100, input='./sample-data/sm3_n2H.wav', epochs=4, num_rnn_layers=4, hidden_size=64, batch_size=6)
+2024-04-22 12:39:52: Finished feature extraction
+2024-04-22 12:39:52: X (noisy) features shape: (116, 22144)
+2024-04-22 12:39:52: Y (clean) labels shape: (116, 22144)
+2024-04-22 12:39:52: Training model using: knn
+2024-04-22 12:39:52: Creating Elbow Plot for knn
+2024-04-22 12:39:53: Training KNN 1 with a loss of 11.495371
+2024-04-22 12:39:53: Training KNN 2 with a loss of 7.513622
+2024-04-22 12:39:53: Training KNN 3 with a loss of 6.549336
+2024-04-22 12:39:54: Training KNN 4 with a loss of 6.5561595
+2024-04-22 12:39:54: Training KNN 5 with a loss of 7.0595145
+2024-04-22 12:39:54: Training KNN 6 with a loss of 7.2555876
+2024-04-22 12:39:55: Training KNN 7 with a loss of 7.544329
+2024-04-22 12:39:55: Training KNN 8 with a loss of 7.779153
+2024-04-22 12:39:55: Training KNN 9 with a loss of 7.767753
+2024-04-22 12:39:56: Training KNN 10 with a loss of 7.59265
+2024-04-22 12:39:56: Training KNN 11 with a loss of 7.661823
+2024-04-22 12:39:56: Training KNN 12 with a loss of 7.6527586
+2024-04-22 12:39:56: Training KNN 13 with a loss of 7.585857
+2024-04-22 12:39:57: Training KNN 14 with a loss of 7.5445075
+2024-04-22 12:40:06: Finished training model using: knn
+2024-04-22 12:40:06: Input (noisy) x features shape:(22144,)
+2024-04-22 12:40:06: Finished prediction
+2024-04-22 12:40:06: Input file path:./sample-data/sm3_n2H.wav
+2024-04-22 12:40:06: Target y labels shape:(128, 173)
+2024-04-22 12:40:07: Finished creating spectrogram
+2024-04-22 12:40:08: Finished recreating audio
+2024-04-22 12:40:08: Finished applying weiner filter to reconstructed audio
+2024-04-22 12:40:08: ---- Finished Training ----
+2024-04-22 12:40:43: Cmd params: Namespace(data_path='./sample-data/', max_audio_length=4, sample_rate=22050, algo='knn', eval_or_test='eval', input='./sample-data/sm3_n2H.wav', gender='male', sound_type='sentence', neighbors=3, estimators=100, hidden_size=64, batch_size=6, epochs=4, num_rnn_layers=4)
+2024-04-22 12:40:47: Finished feature extraction
+2024-04-22 12:40:47: X (noisy) features shape: (116, 22144)
+2024-04-22 12:40:47: Y (clean) labels shape: (116, 22144)
+2024-04-22 12:40:47: Input x (noisy) feature shape:(22144,)
+2024-04-22 16:35:55: Cmd params: Namespace(data_path='./sample-data/', max_audio_length=4, sample_rate=22050, algo='knn', eval_or_test='eval', input='./sample-data/sm3_n2H.wav', gender='male', sound_type='sentence', neighbors=3, estimators=100, hidden_size=64, batch_size=6, epochs=4, num_rnn_layers=4)
+2024-04-22 16:36:00: Finished feature extraction
+2024-04-22 16:36:00: X (noisy) features shape: (116, 22144)
+2024-04-22 16:36:00: Y (clean) labels shape: (116, 22144)
+2024-04-22 16:36:00: Input x (noisy) feature shape:(22144,)
+2024-04-22 16:36:19: Cmd params: Namespace(data_path='./sample-data/', max_audio_length=4, sample_rate=22050, algo='knn', eval_or_test='eval', input='./sample-data/sm3_n2H.wav', gender='male', sound_type='sentence', neighbors=3, estimators=100, hidden_size=64, batch_size=6, epochs=4, num_rnn_layers=4)
+2024-04-22 16:36:23: Finished feature extraction
+2024-04-22 16:36:23: X (noisy) features shape: (116, 22144)
+2024-04-22 16:36:23: Y (clean) labels shape: (116, 22144)
+2024-04-22 16:36:23: Input x (noisy) feature shape:(22144,)
+2024-04-23 09:21:07: ---- Start Training ----
+2024-04-23 09:21:07: Cmd params: Namespace(data_path='./sample-data/', max_audio_length=4, sample_rate=22050, gender='male', sound_type='sentence', algo='knn', verbose=False, neighbors=3, estimators=100, input='./sample-data/sm3_n2H.wav', epochs=4, num_rnn_layers=4, hidden_size=64, batch_size=6)
+2024-04-23 09:21:12: Finished feature extraction
+2024-04-23 09:21:12: X (noisy) features shape: (116, 22144)
+2024-04-23 09:21:12: Y (clean) labels shape: (116, 22144)
+2024-04-23 09:21:12: Training model using: knn
+2024-04-23 09:21:12: Creating Elbow Plot for knn
+2024-04-23 09:21:13: Training KNN 1 with a loss of 10.503094
+2024-04-23 09:21:13: Training KNN 2 with a loss of 7.973075
+2024-04-23 09:21:14: Training KNN 3 with a loss of 6.6154566
+2024-04-23 09:21:14: Training KNN 4 with a loss of 6.9330683
+2024-04-23 09:21:14: Training KNN 5 with a loss of 7.3176036
+2024-04-23 09:21:15: Training KNN 6 with a loss of 7.5214624
+2024-04-23 09:21:15: Training KNN 7 with a loss of 7.7203565
+2024-04-23 09:21:16: Training KNN 8 with a loss of 7.894514
+2024-04-23 09:21:16: Training KNN 9 with a loss of 8.155079
+2024-04-23 09:21:17: Training KNN 10 with a loss of 8.132638
+2024-04-23 09:21:17: Training KNN 11 with a loss of 7.825532
+2024-04-23 09:21:17: Training KNN 12 with a loss of 7.747072
+2024-04-23 09:21:18: Training KNN 13 with a loss of 7.7525845
+2024-04-23 09:21:18: Training KNN 14 with a loss of 7.643365
+2024-04-23 09:21:27: Finished training model using: knn
+2024-04-23 09:21:27: Input (noisy) x features shape:(22144,)
+2024-04-23 09:21:27: Finished prediction
+2024-04-23 09:21:27: Input file path:./sample-data/sm3_n2H.wav
+2024-04-23 09:21:27: Target y labels shape:(128, 173)
+2024-04-23 09:21:28: Finished creating spectrogram
+2024-04-23 09:21:29: Finished recreating audio
+2024-04-23 09:21:29: Finished applying weiner filter to reconstructed audio
+2024-04-23 09:21:29: ---- Finished Training ----
+2024-04-23 09:21:45: Cmd params: Namespace(data_path='./sample-data/', max_audio_length=4, sample_rate=22050, algo='knn', eval_or_test='eval', input='./sample-data/sm3_n2H.wav', gender='male', sound_type='sentence', neighbors=3, estimators=100, hidden_size=64, batch_size=6, epochs=4, num_rnn_layers=4)
+2024-04-23 09:21:49: Finished feature extraction
+2024-04-23 09:21:49: X (noisy) features shape: (116, 22144)
+2024-04-23 09:21:49: Y (clean) labels shape: (116, 22144)
+2024-04-23 09:21:49: Input x (noisy) feature shape:(22144,)
+2024-04-23 09:22:11: Cmd params: Namespace(data_path='./sample-data/', max_audio_length=4, sample_rate=22050, algo='knn', eval_or_test='eval', input='./sample-data/sm3_n2H.wav', gender='male', sound_type='sentence', neighbors=3, estimators=100, hidden_size=64, batch_size=6, epochs=4, num_rnn_layers=4)
+2024-04-23 09:22:15: Finished feature extraction
+2024-04-23 09:22:15: X (noisy) features shape: (116, 22144)
+2024-04-23 09:22:15: Y (clean) labels shape: (116, 22144)
+2024-04-23 09:22:15: Input x (noisy) feature shape:(22144,)
+2024-04-23 09:22:32: Cmd params: Namespace(data_path='./sample-data/', max_audio_length=4, sample_rate=22050, algo='knn', eval_or_test='eval', input='./sample-data/sm3_n2H.wav', gender='male', sound_type='sentence', neighbors=3, estimators=100, hidden_size=64, batch_size=6, epochs=4, num_rnn_layers=4)
+2024-04-23 09:22:37: Finished feature extraction
+2024-04-23 09:22:37: X (noisy) features shape: (116, 22144)
+2024-04-23 09:22:37: Y (clean) labels shape: (116, 22144)
+2024-04-23 09:22:37: Input x (noisy) feature shape:(22144,)
+2024-04-23 11:23:36: ---- Start Training ----
+2024-04-23 11:23:36: Cmd params: Namespace(data_path='./sample-data/', max_audio_length=4, sample_rate=22050, gender='male', sound_type='sentence', algo='knn', verbose=False, neighbors=3, estimators=100, input='./sample-data/sm3_n2H.wav', epochs=4, num_rnn_layers=4, hidden_size=64, batch_size=6)
+2024-04-23 11:23:40: Finished feature extraction
+2024-04-23 11:23:40: X (noisy) features shape: (116, 22144)
+2024-04-23 11:23:40: Y (clean) labels shape: (116, 22144)
+2024-04-23 11:23:40: Training model using: knn
+2024-04-23 11:23:40: Creating Elbow Plot for knn
+2024-04-23 11:23:40: Training KNN 1 with a loss of 12.604448
+2024-04-23 11:23:41: Training KNN 2 with a loss of 8.788475
+2024-04-23 11:23:41: Training KNN 3 with a loss of 7.4256964
+2024-04-23 11:23:41: Training KNN 4 with a loss of 7.6505947
+2024-04-23 11:23:41: Training KNN 5 with a loss of 7.8003726
+2024-04-23 11:23:42: Training KNN 6 with a loss of 7.9954805
+2024-04-23 11:23:42: Training KNN 7 with a loss of 8.099829
+2024-04-23 11:23:42: Training KNN 8 with a loss of 8.172446
+2024-04-23 11:23:43: Training KNN 9 with a loss of 7.979139
+2024-04-23 11:23:43: Training KNN 10 with a loss of 8.066637
+2024-04-23 11:23:43: Training KNN 11 with a loss of 7.9724374
+2024-04-23 11:23:43: Training KNN 12 with a loss of 7.7928977
+2024-04-23 11:23:44: Training KNN 13 with a loss of 7.701399
+2024-04-23 11:23:44: Training KNN 14 with a loss of 7.676775
+2024-04-23 11:23:46: Finished training model using: knn
+2024-04-23 11:23:46: Input (noisy) x features shape:(22144,)
+2024-04-23 11:23:46: Finished prediction
+2024-04-23 11:23:46: Input file path:./sample-data/sm3_n2H.wav
+2024-04-23 11:23:46: Target y labels shape:(128, 173)
+2024-04-23 11:23:47: Finished creating spectrogram
+2024-04-23 11:23:48: Finished recreating audio
+2024-04-23 11:23:48: Finished applying weiner filter to reconstructed audio
+2024-04-23 11:23:48: ---- Finished Training ----
+2024-04-23 11:24:11: Cmd params: Namespace(data_path='./sample-data/', max_audio_length=4, sample_rate=22050, algo='knn', eval_or_test='eval', input='./sample-data/sm3_n2H.wav', gender='male', sound_type='sentence', neighbors=3, estimators=100, hidden_size=64, batch_size=6, epochs=4, num_rnn_layers=4)
+2024-04-23 11:24:14: Finished feature extraction
+2024-04-23 11:24:14: X (noisy) features shape: (116, 22144)
+2024-04-23 11:24:14: Y (clean) labels shape: (116, 22144)
+2024-04-23 11:24:14: Input x (noisy) feature shape:(22144,)
+2024-04-23 12:18:11: ---- Start Training ----
+2024-04-23 12:18:11: Cmd params: Namespace(data_path='./sample-data/', max_audio_length=4, sample_rate=22050, gender='male', sound_type='sentence', algo='knn', verbose=False, neighbors=3, estimators=100, input='./sample-data/sm3_n2H.wav', epochs=4, num_rnn_layers=4, hidden_size=64, batch_size=6)
+2024-04-23 12:18:22: Finished feature extraction
+2024-04-23 12:18:22: X (noisy) features shape: (116, 22144)
+2024-04-23 12:18:22: Y (clean) labels shape: (116, 22144)
+2024-04-23 12:18:22: Training model using: knn
+2024-04-23 12:18:22: Creating Elbow Plot for knn
+2024-04-23 12:18:23: Training KNN 1 with a loss of 11.628746
+2024-04-23 12:18:24: Training KNN 2 with a loss of 7.0408683
+2024-04-23 12:18:25: Training KNN 3 with a loss of 6.5868497
+2024-04-23 12:18:26: Training KNN 4 with a loss of 6.6473303
+2024-04-23 12:18:26: Training KNN 5 with a loss of 7.0341916
+2024-04-23 12:18:27: Training KNN 6 with a loss of 7.269761
+2024-04-23 12:18:28: Training KNN 7 with a loss of 7.5462747
+2024-04-23 12:18:29: Training KNN 8 with a loss of 7.5498934
+2024-04-23 12:18:30: Training KNN 9 with a loss of 7.522417
+2024-04-23 12:18:30: Training KNN 10 with a loss of 7.641771
+2024-04-23 12:18:31: Training KNN 11 with a loss of 7.6035557
+2024-04-23 12:18:32: Training KNN 12 with a loss of 7.489933
+2024-04-23 12:18:33: Training KNN 13 with a loss of 7.4603806
+2024-04-23 12:18:34: Training KNN 14 with a loss of 7.4185796
+2024-04-23 12:18:42: Finished training model using: knn
+2024-04-23 12:18:42: Input (noisy) x features shape:(22144,)
+2024-04-23 12:18:42: Finished prediction
+2024-04-23 12:18:42: Input file path:./sample-data/sm3_n2H.wav
+2024-04-23 12:18:42: Target y labels shape:(128, 173)
+2024-04-23 12:18:44: Finished creating spectrogram
+2024-04-23 12:18:47: Finished recreating audio
+2024-04-23 12:18:47: Finished applying weiner filter to reconstructed audio
+2024-04-23 12:18:47: ---- Finished Training ----
+2024-04-23 12:19:33: Cmd params: Namespace(data_path='./sample-data/', max_audio_length=4, sample_rate=22050, algo='knn', eval_or_test='eval', input='./sample-data/sm3_n2H.wav', gender='male', sound_type='sentence', neighbors=3, estimators=100, hidden_size=64, batch_size=6, epochs=4, num_rnn_layers=4)
+2024-04-23 12:19:43: Finished feature extraction
+2024-04-23 12:19:43: X (noisy) features shape: (116, 22144)
+2024-04-23 12:19:43: Y (clean) labels shape: (116, 22144)
+2024-04-23 12:19:43: Input x (noisy) feature shape:(22144,)
